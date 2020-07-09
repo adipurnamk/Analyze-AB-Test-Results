@@ -14249,7 +14249,7 @@ Maybe some improvement can booost the convert probability.</p>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>0.12033950093362757</pre>
+<pre>0.11938889831947037</pre>
 </div>
 
 </div>
@@ -14292,7 +14292,7 @@ Maybe some improvement can booost the convert probability.</p>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>0.11796714718550019</pre>
+<pre>0.11785165962418989</pre>
 </div>
 
 </div>
@@ -14333,7 +14333,7 @@ Maybe some improvement can booost the convert probability.</p>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>0.002372353748127373</pre>
+<pre>0.0015372386952804823</pre>
 </div>
 
 </div>
@@ -14807,21 +14807,12 @@ p-value associated with ab_page is 0.216. It's value is differ from the value in
 </div>
 
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>h. Though you have now looked at the individual factors of country and page on conversion, we would now like to look at an interaction between page and country to see if there significant effects on conversion.  Create the necessary additional columns, and fit the new model.</p>
-<p>Provide the summary results, and your conclusions based on the results.</p>
-
-</div>
-</div>
-</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">logit</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">Logit</span><span class="p">(</span><span class="n">df3</span><span class="p">[</span><span class="s1">&#39;converted&#39;</span><span class="p">],</span> <span class="n">df3</span><span class="p">[[</span><span class="s1">&#39;intercept&#39;</span><span class="p">,</span> <span class="s1">&#39;ab_page&#39;</span><span class="p">,</span> <span class="s1">&#39;US&#39;</span><span class="p">,</span> <span class="s1">&#39;UK&#39;</span><span class="p">]])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">logit</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">Logit</span><span class="p">(</span><span class="n">df3</span><span class="p">[</span><span class="s1">&#39;converted&#39;</span><span class="p">],</span> <span class="n">df3</span><span class="p">[[</span><span class="s1">&#39;intercept&#39;</span><span class="p">,</span> <span class="s1">&#39;ab_page&#39;</span><span class="p">,</span> <span class="s1">&#39;CA&#39;</span><span class="p">,</span> <span class="s1">&#39;UK&#39;</span><span class="p">]])</span>
 <span class="n">result</span> <span class="o">=</span> <span class="n">logit</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
 </pre></div>
 
@@ -14846,11 +14837,84 @@ p-value associated with ab_page is 0.216. It's value is differ from the value in
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<blockquote><p>In short, this model is the same as the previous model result.<br>
+From our summary result above, none of variables have statistically significance to reject our null value. On the other word, there is no need to implement the new_page.</p>
+</blockquote>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>h. Though you have now looked at the individual factors of country and page on conversion, we would now like to look at an interaction between page and country to see if there significant effects on conversion.  Create the necessary additional columns, and fit the new model.</p>
+<p>Provide the summary results, and your conclusions based on the results.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># We add interaction between our country and ab_page and add it into new </span>
+<span class="c1"># column each</span>
+
+<span class="c1"># UK * ab_page</span>
+<span class="n">df3</span><span class="p">[</span><span class="s1">&#39;UK_ab_page&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df3</span><span class="p">[</span><span class="s1">&#39;UK&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">df3</span><span class="p">[</span><span class="s1">&#39;ab_page&#39;</span><span class="p">]</span>
+
+<span class="c1"># CA * ab_page</span>
+<span class="n">df3</span><span class="p">[</span><span class="s1">&#39;CA_ab_page&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df3</span><span class="p">[</span><span class="s1">&#39;CA&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">df3</span><span class="p">[</span><span class="s1">&#39;ab_page&#39;</span><span class="p">]</span>
+
+<span class="c1"># Calling function and fitting same as before</span>
+<span class="n">logit</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">Logit</span><span class="p">(</span><span class="n">df3</span><span class="p">[</span><span class="s1">&#39;converted&#39;</span><span class="p">],</span> <span class="n">df3</span><span class="p">[[</span><span class="s1">&#39;intercept&#39;</span><span class="p">,</span> <span class="s1">&#39;ab_page&#39;</span><span class="p">,</span> <span class="s1">&#39;UK&#39;</span><span class="p">,</span> <span class="s1">&#39;CA&#39;</span><span class="p">,</span> <span class="s1">&#39;UK_ab_page&#39;</span><span class="p">,</span> <span class="s1">&#39;CA_ab_page&#39;</span><span class="p">]])</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="n">logit</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">results</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<blockquote><p>Still, adding a interaction between country and ab_page column didn't change our</p>
+</blockquote>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<blockquote><p>Pourtant, l'ajout d'une interaction entre le pays et la colonne ab_page n'a pas changé notre</p>
+</blockquote>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<blockquote><p>Still, adding an interaction between country and ab_page can't change our decision. All of the predictor from third logistic regression is lack of significancy to reject our null hypothesis.<br>
+So far we better use the page, instead of launching the new page.</p>
+</blockquote>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p><a id='conclusions'></a></p>
 <h2 id="Finishing-Up">Finishing Up<a class="anchor-link" href="#Finishing-Up">&#182;</a></h2><blockquote><p>Congratulations!  You have reached the end of the A/B Test Results project!  You should be very proud of all you have accomplished!</p>
 </blockquote>
-<h3 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion">&#182;</a></h3><blockquote><p>In short, this model is the same as the previous model result.<br>
-From our summary result above, none of variables have statistically significance to reject our null value. On the other word, there is no need to implement the new_page.<br>
+<h3 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion">&#182;</a></h3><blockquote><p>We have fitted three logistic regression and just saw each result. All of them is not good enough to reject our null hypothesis. All of the variable p-value is beyond 0.05.<br>
+Then, based on our easy and hard way to implement A/B testing for this lab, we decide that. The implementation of the new page is not needed for now.<br>
 The limitations that we have is, we lack of important variable to our model, maybe addition like duration or day can lead to more precise model.</p>
 </blockquote>
 <h3 id="Resources">Resources<a class="anchor-link" href="#Resources">&#182;</a></h3><ul>
